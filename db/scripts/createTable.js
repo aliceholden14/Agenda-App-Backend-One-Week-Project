@@ -3,10 +3,15 @@ const { query } = require("../index");
 
 // run query to make table
 const sqlStatement = `
-CREATE TABLE scores (
+CREATE TABLE notes (
     id SERIAL PRIMARY KEY,
-    name TEXT,
-    score INTEGER
+    user_id TEXT,
+    title TEXT,
+    description TEXT,
+    date DATE DEFAULT CURRENT_DATE,
+    category TEXT,
+    priority INTEGER,
+    on_agenda BOOLEAN
 )
 `;
 
