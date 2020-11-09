@@ -1,5 +1,17 @@
 const { query } = require("../db/index");
 
+async function getNotes() {
+  const result = await query("SELECT * FROM notes");
+  console.log(result);
+  return result;
+}
+
+async function getNoteById(id) {
+  const result = await query("SELECT * FROM notes WHERE id = $1;", [id]);
+  console.log(result);
+  return result;
+}
+
 async function addNote(
   userId,
   title,
@@ -18,4 +30,6 @@ async function addNote(
 
 module.exports = {
   addNote,
+  getNotes,
+  getNoteById,
 };

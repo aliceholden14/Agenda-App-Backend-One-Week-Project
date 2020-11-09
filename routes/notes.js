@@ -1,7 +1,18 @@
 var express = require("express");
 var router = express.Router();
 
-const { addNote } = require("../models/notes");
+const { addNote, getNotes, getNoteById } = require("../models/notes");
+
+router.get("/", async function (req, res) {
+  const notes = await getNotes();
+  res.json({ success: true, data: notes });
+});
+
+router.get("/:id", async function (req, res) {
+  const { id } = req.params;
+  const note = await getNoteById(id);
+  res.json({ success: true, data: note });
+});
 
 router.post("/", async function (req, res) {
   console.log(req.body);
