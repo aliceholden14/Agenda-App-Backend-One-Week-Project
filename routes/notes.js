@@ -3,7 +3,24 @@ var router = express.Router();
 
 const { addNote, getNotes, getNoteById } = require("../models/notes");
 
+// Possible Routes
+// /notes?priority=3
+// /notes?category
+// /notes?start=2012-01-01&end=2012-01-31
+
 router.get("/", async function (req, res) {
+  console.log(req.query);
+  const { priority, category, start, end } = req.query;
+  if (priority) {
+    console.log("Whats the priority?");
+    return;
+  } else if (category) {
+    console.log("Its a category!");
+    return;
+  } else if (start && end) {
+    console.log("We have some dates");
+    return;
+  }
   const notes = await getNotes();
   res.json({ success: true, data: notes });
 });
