@@ -1,7 +1,16 @@
 var express = require("express");
 var router = express.Router();
 
-const { addNote, getNotes, getNoteById } = require("../models/notes");
+const {
+  addNote,
+  getNotes,
+  getNoteById,
+  getNotesBetweenDates,
+  getNotesByPriority,
+  getNotesByCategory,
+  getNotesOnAgenda,
+  updateNoteById,
+} = require("../models/notes");
 
 // Possible Routes
 // /notes?priority=3
@@ -10,15 +19,22 @@ const { addNote, getNotes, getNoteById } = require("../models/notes");
 
 router.get("/", async function (req, res) {
   console.log(req.query);
-  const { priority, category, start, end } = req.query;
+  const { priority, category, start, end, onAgenda } = req.query;
   if (priority) {
-    console.log("Whats the priority?");
+    const notes = await getNotesByPriority(priority);
+    res.json({ success: true, data: notes });
     return;
   } else if (category) {
-    console.log("Its a category!");
+    const notes = await getNotesByCategory(category);
+    res.json({ success: true, data: notes });
     return;
   } else if (start && end) {
-    console.log("We have some dates");
+    const notes = await getNotesBetweenDates(start, end);
+    res.json({ success: true, data: notes });
+    return;
+  } else if (onAgenda) {
+    const notes = await getNotesOnAgenda(onAgenda);
+    res.json({ success: true, data: notes });
     return;
   }
   const notes = await getNotes();
@@ -43,6 +59,29 @@ router.post("/", async function (req, res) {
     onAgenda
   );
   res.json({ success: true, message: `${title} has been added with id ${id}` });
+});
+
+router.put("/", async function (req, res) {
+  console.log(req.body);
+  const {
+    id,
+    userId,
+    title,
+    description,
+    category,
+    priority,
+    onAgenda,
+  } = req.body;
+  const result = await updateNoteById(
+    id,
+    userId,
+    title,
+    description,
+    category,
+    priority,
+    onAgenda
+  );
+  res.json({ success: true, message: `${id} has been updated` });
 });
 
 module.exports = router;
