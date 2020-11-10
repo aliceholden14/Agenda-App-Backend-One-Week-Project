@@ -12,11 +12,6 @@ const {
   updateNoteById,
 } = require("../models/notes");
 
-// Possible Routes
-// /notes?priority=3
-// /notes?category
-// /notes?start=2012-01-01&end=2012-01-31
-
 router.get("/", async function (req, res) {
   console.log(req.query);
   const { priority, category, start, end, onAgenda } = req.query;
