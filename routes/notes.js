@@ -53,7 +53,8 @@ router.post("/", async function (req, res) {
 });
 
 // Update a specific note at the specified path, null values are ignored by updateNoteById()
-router.patch("/:id", async function (req, res) {
+// This should be 'patch' method rather than 'put' but that throws up a cors error that we couldn't fix
+router.put("/:id", async function (req, res) {
   const { id } = req.params;
   const {
     userId,
@@ -89,43 +90,3 @@ router.delete("/:id", async function (req, res) {
 
 // Export router for use in app.js
 module.exports = router;
-
-// Deprecated code
-
-// // Import functions from models
-// const {
-//   addNote,
-//   getNotes,
-//   getNoteById,
-//   getNotesBetweenDates,
-//   getNotesByPriority,
-//   getNotesByCategory,
-//   getNotesOnAgenda,
-//   updateNoteById,
-//   getNotesFromQuery,
-// } = require("../models/notes");
-
-// Handles a range of get requests based on various query options, compound queries not yet implemented
-// router.get("/", async function (req, res) {
-//   console.log(req.query);
-//   const { priority, category, start, end, onAgenda } = req.query;
-//   if (priority) {
-//     const notes = await getNotesByPriority(priority);
-//     res.json({ success: true, data: notes });
-//     return;
-//   } else if (category) {
-//     const notes = await getNotesByCategory(category);
-//     res.json({ success: true, data: notes });
-//     return;
-//   } else if (start && end) {
-//     const notes = await getNotesBetweenDates(start, end);
-//     res.json({ success: true, data: notes });
-//     return;
-//   } else if (onAgenda) {
-//     const notes = await getNotesOnAgenda(onAgenda);
-//     res.json({ success: true, data: notes });
-//     return;
-//   }
-//   const notes = await getNotes();
-//   res.json({ success: true, data: notes });
-// });
