@@ -73,6 +73,14 @@ async function updateNoteById(
   return result.rows[0].id;
 }
 
+// Delete a specific note by ID
+async function deleteNoteById(id) {
+  const result = await query("DELETE FROM notes WHERE id = $1 RETURNING id;", [
+    id,
+  ]);
+  return result.rows[0].id;
+}
+
 // Export functions for use in routes
 module.exports = {
   getNotes,
@@ -80,6 +88,7 @@ module.exports = {
   getNotesFromQuery,
   addNote,
   updateNoteById,
+  deleteNoteById,
 };
 
 // Deprecated Code

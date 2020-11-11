@@ -139,7 +139,7 @@ async function execute() {
       date,
       category,
       priority,
-      onAgenda,
+      on_agenda,
     } = sampleData[i];
     await addNote(
       userId,
@@ -148,7 +148,7 @@ async function execute() {
       date,
       category,
       priority,
-      onAgenda
+      on_agenda
     );
   }
 }

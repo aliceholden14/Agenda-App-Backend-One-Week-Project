@@ -8,6 +8,7 @@ const {
   getNotesFromQuery,
   addNote,
   updateNoteById,
+  deleteNoteById,
 } = require("../models/notes");
 
 // Get all notes or a selection based on query parameters, null values are ignored by getNotesFromQuery()
@@ -77,6 +78,13 @@ router.patch("/:id", async function (req, res) {
     success: true,
     message: `Row with ID:${result} has been updated`,
   });
+});
+
+// Delete a specific note by id at the specified path
+router.delete("/:id", async function (req, res) {
+  const { id } = req.params;
+  const result = await deleteNoteById(id);
+  res.json({ success: true, message: `Note with ID:${result} was deleted` });
 });
 
 // Export router for use in app.js
