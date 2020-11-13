@@ -2,28 +2,38 @@
 const { query } = require("../db/index");
 
 // Get all notes
-async function getNotes() {
-  const result = await query("SELECT * FROM notes");
-  return result;
-}
-
-// Get a specific note by ID
-async function getNoteById(id) {
-  const result = await query("SELECT * FROM notes WHERE id = $1;", [id]);
+async function getNotes(queryOrder) {
+  const result = await query(
+    `SELECT * FROM notes ORDER BY date ${queryOrder}, priority ASC, title ASC;`
+  );
   return result;
 }
 
 // Get notes that match a given query, null parameters are ignored
-async function getNotesFromQuery(start, end, priority, category, onAgenda) {
+async function getNotesFromQuery(
+  start,
+  end,
+  priority,
+  category,
+  onAgenda,
+  queryOrder
+) {
   const result = await query(
     `SELECT * FROM notes 
       WHERE (date >= COALESCE($1, date)) 
       AND (date <= COALESCE($2, date))
       AND (priority = COALESCE($3, priority))
       AND (category = COALESCE($4, category))
-      AND (on_agenda = COALESCE($5, on_agenda));`,
+      AND (on_agenda = COALESCE($5, on_agenda))
+      ORDER BY date ${queryOrder}, priority ASC, title ASC;`,
     [start, end, priority, category, onAgenda]
   );
+  return result;
+}
+
+// Get a specific note by ID
+async function getNoteById(id) {
+  const result = await query("SELECT * FROM notes WHERE id = $1;", [id]);
   return result;
 }
 

@@ -13,7 +13,11 @@ const {
 
 // Get all notes or a selection based on query parameters, null values are ignored by getNotesFromQuery()
 router.get("/", async function (req, res) {
-  const { start, end, priority, category, onAgenda } = req.query;
+  const { start, end, priority, category, onAgenda, order } = req.query;
+  let queryOrder = "DESC";
+  if (order === "ascending") {
+    queryOrder = "ASC";
+  }
   // Check for any query
   if (start || end || priority || category || onAgenda) {
     const notes = await getNotesFromQuery(
@@ -21,13 +25,14 @@ router.get("/", async function (req, res) {
       end,
       priority,
       category,
-      onAgenda
+      onAgenda,
+      queryOrder
     );
     res.json({ success: true, data: notes });
     return;
   }
   // Otherwise get all notes
-  const notes = await getNotes();
+  const notes = await getNotes(queryOrder);
   res.json({ success: true, data: notes });
 });
 
