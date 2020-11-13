@@ -13,12 +13,18 @@ const {
 
 // Get all notes or a selection based on query parameters, null values are ignored by getNotesFromQuery()
 router.get("/", async function (req, res) {
-  const { start, end, priority, category, onAgenda, order } = req.query;
+  const { search, start, end, priority, category, onAgenda, order } = req.query;
+  // Check order query and map to SQL syntax
   let queryOrder = "DESC";
   if (order === "ascending") {
     queryOrder = "ASC";
   }
-  // Check for any query
+  // Check search query and map to SQL syntax
+  let querySearch = "%%";
+  if (search) {
+    querySearch = `%${search}%`;
+  }
+  // Check for any other query
   if (start || end || priority || category || onAgenda) {
     const notes = await getNotesFromQuery(
       start,
@@ -26,13 +32,14 @@ router.get("/", async function (req, res) {
       priority,
       category,
       onAgenda,
-      queryOrder
+      queryOrder,
+      querySearch
     );
     res.json({ success: true, data: notes });
     return;
   }
-  // Otherwise get all notes
-  const notes = await getNotes(queryOrder);
+  // Otherwise get all notes with any search query
+  const notes = await getNotes(querySearch, queryOrder);
   res.json({ success: true, data: notes });
 });
 

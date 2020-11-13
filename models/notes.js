@@ -2,9 +2,12 @@
 const { query } = require("../db/index");
 
 // Get all notes
-async function getNotes(queryOrder) {
+async function getNotes(querySearch, queryOrder) {
   const result = await query(
-    `SELECT * FROM notes ORDER BY date ${queryOrder}, priority ASC, title ASC;`
+    `SELECT * FROM notes 
+      WHERE (description ILIKE $1 OR title ILIKE $1)
+      ORDER BY date ${queryOrder}, priority ASC, title ASC;`,
+    [querySearch]
   );
   return result;
 }
@@ -16,7 +19,8 @@ async function getNotesFromQuery(
   priority,
   category,
   onAgenda,
-  queryOrder
+  queryOrder,
+  querySearch
 ) {
   const result = await query(
     `SELECT * FROM notes 
@@ -25,8 +29,9 @@ async function getNotesFromQuery(
       AND (priority = COALESCE($3, priority))
       AND (category = COALESCE($4, category))
       AND (on_agenda = COALESCE($5, on_agenda))
+      AND (description ILIKE $6 OR title ILIKE $6)
       ORDER BY date ${queryOrder}, priority ASC, title ASC;`,
-    [start, end, priority, category, onAgenda]
+    [start, end, priority, category, onAgenda, querySearch]
   );
   return result;
 }
