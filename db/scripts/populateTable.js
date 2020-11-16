@@ -42,6 +42,16 @@ const sampleData = [
   },
   {
     userId: "student",
+    title: "Roles in the tech industry",
+    description:
+      "What are the different jobs and roles that go into making a tech product?",
+    date: "2020-10-06",
+    category: "industry",
+    priority: 2,
+    on_agenda: false,
+  },
+  {
+    userId: "student",
     title: "What jobs involve node?",
     description:
       "Just getting my head around node, I really like it, what jobs involve working with node, is it a back end engineer?",
@@ -52,9 +62,8 @@ const sampleData = [
   },
   {
     userId: "student",
-    title: "SQL WTF!!! All my SQL is broken, none of it works :(",
-    description:
-      "Why do we need databases anyway? Seems like a silly idea to me",
+    title: "SQL WTF!!!",
+    description: "SQL query why you no work? Sad face :(",
     date: "2020-10-08",
     category: "databases",
     priority: 3,
@@ -62,7 +71,7 @@ const sampleData = [
   },
   {
     userId: "student",
-    title: "Help with designing Relational Databases",
+    title: "Relational Databases",
     description:
       "Would like to discuss approaches to designing relational databases",
     date: "2020-10-12",
@@ -75,6 +84,15 @@ const sampleData = [
     title: "Help with React props",
     description: "Want to get a better understanding of this",
     date: "2020-10-20",
+    category: "front-end",
+    priority: 2,
+    on_agenda: false,
+  },
+  {
+    userId: "student",
+    title: "What is JQuery",
+    description: "Is it still being used, does it work with React",
+    date: "2020-10-30",
     category: "front-end",
     priority: 2,
     on_agenda: false,
